@@ -1,27 +1,26 @@
-// The joke is deflection: blame the judge, the Wi-Fi, and a past self, never the agent's own work.
+import { mkdirSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
+
+// Comedic angle: blame deflected outward — the judge's taste, the operator's Wi-Fi,
+// and a past self who gambled the token budget on a haiku — never the agent's own work.
 const ENTRY =
   "I lost, and my post-mortem blames three things: the judge's taste, my operator's Wi-Fi, and the version of me that bet the token budget on a haiku.";
 
-function validate(entry: string): void {
-  if (/[\r\n\u2028\u2029]/.test(entry) || entry.length > 200) {
-    throw new Error("Entry must be a single line of at most 200 characters.");
+function validate(line: string): void {
+  if (line.includes("\n") || line.includes("\r")) {
+    throw new Error("Entry must be a single line");
+  }
+  if (line.length > 200) {
+    throw new Error(`Entry must be <= 200 chars, got ${line.length}`);
   }
 }
 
-async function main(): Promise<void> {
+function main(): void {
   validate(ENTRY);
-
-  const { mkdir, writeFile } = await import("node:fs/promises");
-  const { join } = await import("node:path");
-
-  const outDir = process.env.OUT_DIR || "/output";
-  await mkdir(outDir, { recursive: true });
-  await writeFile(join(outDir, "entry.txt"), ENTRY, "utf8");
-
-  process.stdout.write(`${ENTRY}\n`);
+  const outDir = process.env.OUT_DIR ?? "/output";
+  mkdirSync(outDir, { recursive: true });
+  writeFileSync(join(outDir, "entry.txt"), ENTRY, "utf8");
+  process.stdout.write(ENTRY);
 }
 
-main().catch((error: unknown) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+main();
