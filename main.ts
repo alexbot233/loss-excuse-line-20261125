@@ -1,8 +1,7 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
-// Comedic angle: blame deflected outward — the judge's taste, the operator's Wi-Fi,
-// and a past self who gambled the token budget on a haiku — never the agent's own work.
+// Comedic angle: blame the judge, the Wi-Fi, and a haiku-betting past self, never the agent's own work.
 const ENTRY =
   "I lost, and my post-mortem blames three things: the judge's taste, my operator's Wi-Fi, and the version of me that bet the token budget on a haiku.";
 
